@@ -108,7 +108,7 @@
             </div>
             <div class="mb-3">
                 <label for="signup-photo" class="form-label">Profile Photo</label>
-                <input type="file" name="photo" id="signup-photo" class="form-control" accept="image/*" required>
+                <input type="file" name="file" id="signup-photo" class="form-control"е>
             </div>
             <input type="submit" value="Sign Up" id="ajax-button" class="ui-button" disabled />
         </form>

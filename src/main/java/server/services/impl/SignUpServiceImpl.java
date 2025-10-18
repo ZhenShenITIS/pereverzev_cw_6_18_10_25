@@ -18,8 +18,16 @@ public class SignUpServiceImpl implements SignUpService {
         String name = userRegistrationDto.getName();
         String lastName = userRegistrationDto.getLastName();
         String login = userRegistrationDto.getLogin();
+        String imagePath = userRegistrationDto.getImagePath();
         String password = PasswordUtil.encrypt(userRegistrationDto.getPassword());
-        User user = new User(name, lastName, login, password);
+        User user = User
+                .builder()
+                .password(password)
+                .login(login)
+                .name(name)
+                .lastName(lastName)
+                .imagePath(imagePath)
+                .build();
         userDao.save(user);
         return true;
 

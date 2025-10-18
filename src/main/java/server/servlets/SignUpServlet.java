@@ -4,6 +4,7 @@ import server.dto.UserRegistrationDto;
 import server.services.SignUpService;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +17,10 @@ import java.io.InputStream;
 import java.nio.file.Paths;
 
 @WebServlet(name = "SignUp", urlPatterns = {"/signup", "/signUp"})
+@MultipartConfig(
+        maxFileSize = 5 * 1024 * 1024,
+        maxRequestSize = 10 * 1024 * 1024
+)
 public class SignUpServlet extends HttpServlet {
     SignUpService signUpService;
 
@@ -34,18 +39,12 @@ public class SignUpServlet extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
 
-        if (signUpService.signUp(new UserRegistrationDto(name, lastName, login, password))) {
-            resp.sendRedirect("success_registration.ftl");
-        } else {
-            resp.sendRedirect("already_signed_up.ftl");
-        }
-
-
         Part part = req.getPart("file");
         String filename = Paths.get(part.getSubmittedFileName()).getFileName().toString();
 
-        File file = new File(FILE_PREFIX + File.separator
-                + Math.abs(filename.hashCode()) % DIRECTORIES_COUNT + File.separator + filename);
+        String tempFilePath = FILE_PREFIX + File.separator
+                + Math.abs(filename.hashCode()) % DIRECTORIES_COUNT + File.separator + filename;
+        File file = new File(tempFilePath);
         InputStream content = part.getInputStream();
         file.getParentFile().mkdirs();
         file.createNewFile();
@@ -54,6 +53,12 @@ public class SignUpServlet extends HttpServlet {
         content.read(buffer);
         fis. write(buffer);
         fis.close();
+
+        if (signUpService.signUp(new UserRegistrationDto(name, lastName, login, password, tempFilePath))) {
+            resp.sendRedirect("success_registration.ftl");
+        } else {
+            resp.sendRedirect("already_signed_up.ftl");
+        }
     }
 
     @Override

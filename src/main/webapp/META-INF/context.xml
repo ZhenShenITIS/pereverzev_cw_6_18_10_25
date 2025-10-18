@@ -1,0 +1,7 @@
+<Context>
+    <Resources>
+        <PreResources className="org.apache.catalina.webresources.DirResourceSet"
+                      base="/tmp"
+                      webAppMount="/images/uploads"/>
+    </Resources>
+</Context>

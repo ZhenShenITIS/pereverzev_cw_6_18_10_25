@@ -15,12 +15,12 @@ public class LoginServiceImpl implements LoginService {
         String passwordHash = PasswordUtil.encrypt(userLoginDto.getPassword());
         User user = userDao.getByLogin(login);
         if (user != null && user.getPassword().equals(passwordHash)) {
-            //return new UserDto(user.getName(), user.getLastName(), user.getLogin());
             return UserDto
                     .builder()
                     .name(user.getName())
                     .lastName(user.getLastName())
                     .login(user.getLogin())
+                    .imagePath(user.getImagePath())
                     .build();
         }
         return null;

@@ -6,11 +6,7 @@
 <#macro content>
     <h3>
         Hello, ${name} ${lastName}! Login successful!
-
-<#--        <br>-->
-<#--        Session ID: ${sessionId}-->
-<#--        <br>-->
-<#--        Cookie user: ${cookieUser}-->
+        <img src="${imagePath}" alt="User photo" />
     </h3>
 </#macro>
 </html>

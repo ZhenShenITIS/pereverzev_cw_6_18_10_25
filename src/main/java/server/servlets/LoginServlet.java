@@ -24,17 +24,6 @@ public class LoginServlet  extends HttpServlet {
         String password = req.getParameter("password");
         UserDto user = loginService.login(new UserLoginDto(login, password));
         if (user != null) {
-
-//            // session
-//            HttpSession httpSession = req.getSession();
-//            httpSession.setAttribute("user", login);
-//            httpSession.setMaxInactiveInterval(60*60);
-//
-//            // cookie
-//            Cookie cookie = new Cookie("user", login);
-//            cookie.setMaxAge(24 * 60 * 60);
-//            resp.addCookie(cookie);
-//            resp.sendRedirect("main");
             req.setAttribute("user", user);
             req.getRequestDispatcher("main").forward(req, resp);
         } else {
